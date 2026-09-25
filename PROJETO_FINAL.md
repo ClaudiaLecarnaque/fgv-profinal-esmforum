@@ -3,7 +3,7 @@
 **Aluna:** Claudia Lecarnaque (trabalho individual)
 
 **Repositórios:**
-- Backend (fork de `jeffsantos/esmforum`): _(link do fork)_
+- Backend (fork de `jeffsantos/esmforum`): https://github.com/ClaudiaLecarnaque/fgv-profinal-esmforum
 - Frontend (fork de `jeffsantos/esmforum-react`): _(link do fork)_
 - Board no GitHub Projects: _(link do board)_
 

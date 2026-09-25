@@ -21,14 +21,14 @@ Não é preciso instalar o SQLite separadamente para rodar o sistema: a bibliote
 2. Clonei os dois forks lado a lado:
 
 ```bash
-git clone https://github.com/<meu-usuario>/esmforum.git
+git clone https://github.com/ClaudiaLecarnaque/fgv-profinal-esmforum.git
 git clone https://github.com/<meu-usuario>/esmforum-react.git
 ```
 
 ## 2. Backend (Node.js + Express + SQLite)
 
 ```bash
-cd esmforum
+cd fgv-profinal-esmforum
 npm install
 node server.js
 ```
