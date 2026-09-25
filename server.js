@@ -1,5 +1,9 @@
 const express = require('express')
 const modelo = require('./modelo.js');
+const bd = require('./bd/bd_utils.js');
+const { criarServicoBusca, validarFiltros, ErroValidacao } = require('./busca');
+
+const servicoBusca = criarServicoBusca(bd);
 
 const app = express()
 app.use(express.json());
@@ -18,6 +22,20 @@ app.get('/', (req, res) => {
   }
   catch(erro) {
     res.status(500).json(erro.message); 
+  }
+});
+
+// Busca de perguntas por palavra-chave.
+// Ex.: GET /perguntas/busca?q=git%20rebase&sem_resposta=true
+app.get('/perguntas/busca', (req, res) => {
+  try {
+    const filtros = validarFiltros(req.query);
+    const perguntas = servicoBusca.buscar(filtros);
+    res.json({ termo: filtros.q, total: perguntas.length, perguntas: perguntas });
+  }
+  catch(erro) {
+    const status = erro instanceof ErroValidacao ? 400 : 500;
+    res.status(status).json({ erro: erro.message });
   }
 });
 
@@ -59,7 +77,12 @@ app.post('/respostas', (req, res) => {
 });
 
 // espera e trata requisições de clientes
-const port = 5000;
-app.listen(port, 'localhost', () => {
-  console.log(`ESM Forum rodando em ${port}`)
-});
+// (só quando executado diretamente; nos testes, o app é importado sem abrir a porta)
+if (require.main === module) {
+  const port = 5000;
+  app.listen(port, 'localhost', () => {
+    console.log(`ESM Forum rodando em ${port}`)
+  });
+}
+
+module.exports = app;
