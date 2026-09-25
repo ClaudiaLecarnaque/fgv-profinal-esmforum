@@ -1,0 +1,70 @@
+---
+title: Busca de perguntas - estrutura SOLID implementada
+---
+classDiagram
+    direction LR
+
+    class server_js["server.js (rota GET /perguntas/busca)"] {
+        +validarFiltros(req.query)
+        +servicoBusca.buscar(filtros)
+    }
+
+    class ServicoBusca {
+        -repositorio: RepositorioPerguntas
+        -criterios: CriterioBusca[]
+        +buscar(filtros) Pergunta[]
+    }
+
+    class RepositorioPerguntas {
+        <<abstract>>
+        +listarComNumRespostas() Pergunta[]
+    }
+
+    class RepositorioPerguntasSQLite {
+        -bd: bd_utils
+        +listarComNumRespostas() Pergunta[]
+    }
+
+    class CriterioBusca {
+        <<interface>>
+        +seAplica(filtros) boolean
+        +atende(pergunta, filtros) boolean
+    }
+
+    class CriterioPalavraChave {
+        +seAplica(filtros) boolean
+        +atende(pergunta, filtros) boolean
+    }
+
+    class CriterioSemResposta {
+        +seAplica(filtros) boolean
+        +atende(pergunta) boolean
+    }
+
+    class normalizar_texto {
+        <<module>>
+        +normalizarTexto(texto) string
+        +separarPalavras(texto) string[]
+    }
+
+    class validar_filtros {
+        <<module>>
+        +validarFiltros(query) Filtros
+    }
+
+    class index_js["busca/index.js (raiz de composição)"] {
+        +criarServicoBusca(bd) ServicoBusca
+    }
+
+    server_js --> validar_filtros
+    server_js --> ServicoBusca
+    server_js ..> index_js : cria via
+    ServicoBusca --> RepositorioPerguntas : depende da abstração
+    ServicoBusca --> "1..*" CriterioBusca : depende da abstração
+    RepositorioPerguntasSQLite --|> RepositorioPerguntas
+    CriterioPalavraChave ..|> CriterioBusca
+    CriterioSemResposta ..|> CriterioBusca
+    CriterioPalavraChave ..> normalizar_texto
+    index_js ..> RepositorioPerguntasSQLite : instancia
+    index_js ..> CriterioPalavraChave : instancia
+    index_js ..> CriterioSemResposta : instancia
