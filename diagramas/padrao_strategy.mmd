@@ -1,0 +1,38 @@
+---
+title: Strategy - Ordenação da lista de perguntas
+---
+classDiagram
+    direction LR
+    class ServicoListagem {
+        -repositorio: RepositorioPerguntas
+        -estrategias: Map~string, EstrategiaOrdenacao~
+        -padrao: string
+        +listar(ordem) Pergunta[]
+    }
+    class EstrategiaOrdenacao {
+        <<interface>>
+        +nome: string
+        +comparar(a, b) number
+    }
+    class OrdenacaoRecentes {
+        +nome = "recentes"
+        +comparar(a, b) number
+    }
+    class OrdenacaoMaisVotadas {
+        +nome = "mais-votadas"
+        +comparar(a, b) number
+    }
+    class OrdenacaoMaisRespondidas {
+        +nome = "mais-respondidas"
+        +comparar(a, b) number
+    }
+    class OrdenacaoRelevancia {
+        +nome = "relevancia"
+        +comparar(a, b) number
+    }
+    ServicoListagem o-- "1..*" EstrategiaOrdenacao : usa
+    OrdenacaoRecentes ..|> EstrategiaOrdenacao
+    OrdenacaoMaisVotadas ..|> EstrategiaOrdenacao
+    OrdenacaoMaisRespondidas ..|> EstrategiaOrdenacao
+    OrdenacaoRelevancia ..|> EstrategiaOrdenacao
+    note for OrdenacaoRelevancia "Nova estratégia = nova classe. ServicoListagem não muda."

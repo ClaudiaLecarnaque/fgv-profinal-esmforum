@@ -1,0 +1,39 @@
+---
+title: Decorator - Cache e métricas no repositório de perguntas
+---
+classDiagram
+    direction TB
+    class RepositorioPerguntas {
+        <<abstract>>
+        +listarComNumRespostas() Pergunta[]
+    }
+    class RepositorioPerguntasSQLite {
+        -bd
+        +listarComNumRespostas() Pergunta[]
+    }
+    class DecoradorRepositorio {
+        <<abstract>>
+        #interno: RepositorioPerguntas
+        +listarComNumRespostas() Pergunta[]
+    }
+    class RepositorioComCache {
+        -cache: Pergunta[]
+        -validoAte: number
+        -ttlMs: number
+        +listarComNumRespostas() Pergunta[]
+        +invalidar()
+    }
+    class RepositorioComMetricas {
+        -registrar: function
+        +listarComNumRespostas() Pergunta[]
+    }
+    class ServicoBusca {
+        -repositorio: RepositorioPerguntas
+        +buscar(filtros)
+    }
+    RepositorioPerguntasSQLite --|> RepositorioPerguntas
+    DecoradorRepositorio --|> RepositorioPerguntas
+    DecoradorRepositorio o-- "1" RepositorioPerguntas : envolve
+    RepositorioComCache --|> DecoradorRepositorio
+    RepositorioComMetricas --|> DecoradorRepositorio
+    ServicoBusca --> RepositorioPerguntas : não sabe se está decorado

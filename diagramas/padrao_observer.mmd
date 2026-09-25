@@ -1,0 +1,46 @@
+---
+title: Observer - Notificação de novas respostas
+---
+classDiagram
+    direction LR
+    class PublicadorEventos {
+        -observadores: Map~string, Observador[]~
+        +inscrever(evento, observador)
+        +cancelar(evento, observador)
+        +publicar(evento, dados)
+    }
+    class Observador {
+        <<interface>>
+        +atualizar(dados)
+    }
+    class ServicoRespostas {
+        -repositorio: RepositorioRespostas
+        -publicador: PublicadorEventos
+        +cadastrar(id_pergunta, texto, id_autor) Resposta
+    }
+    class NotificadorAutorPergunta {
+        -repoNotificacoes: RepositorioNotificacoes
+        -repoPerguntas: RepositorioPerguntas
+        +atualizar(dados)
+    }
+    class NotificadorEmail {
+        -servicoEmail: ServicoEmail
+        +atualizar(dados)
+    }
+    class RegistroAtividade {
+        +atualizar(dados)
+    }
+    class Notificacao {
+        +id_notificacao: int
+        +id_usuario: int
+        +id_pergunta: int
+        +mensagem: string
+        +lida: boolean
+        +data: datetime
+    }
+    ServicoRespostas --> PublicadorEventos : publica "resposta.criada"
+    PublicadorEventos o-- "0..*" Observador : notifica
+    NotificadorAutorPergunta ..|> Observador
+    NotificadorEmail ..|> Observador
+    RegistroAtividade ..|> Observador
+    NotificadorAutorPergunta ..> Notificacao : cria
