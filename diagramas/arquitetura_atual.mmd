@@ -1,0 +1,43 @@
+---
+title: ESM Forum - Arquitetura atual
+---
+flowchart LR
+    U([Usuário])
+
+    subgraph Browser["Navegador - porta 3000"]
+        direction TB
+        subgraph SPA["Camada de Apresentação: SPA React (esmforum-react)"]
+            R[index.js<br/>React Router]
+            P[Pergunta.js<br/>+ BuscaPerguntas.js]
+            RS[Resposta.js]
+            M[Menu.js / Sobre.js]
+        end
+    end
+
+    subgraph Servidor["Servidor Node.js - porta 5000 (esmforum)"]
+        direction TB
+        subgraph CTRL["Controlador: server.js (Express)"]
+            MW[Middlewares<br/>express.json + CORS]
+            RT["Rotas REST<br/>GET / · POST /perguntas<br/>GET /respostas/:id · POST /respostas<br/>GET /perguntas/busca"]
+        end
+        subgraph MOD["Modelo: negócio + dados misturados"]
+            MO[modelo.js]
+            BU[busca/<br/>ServicoBusca, critérios,<br/>repositório]
+        end
+        subgraph DADOS["Acesso a dados"]
+            BD[bd/bd_utils.js<br/>Facade sobre better-sqlite3]
+        end
+    end
+
+    DB[(SQLite<br/>bd/esmforum.db<br/>perguntas · respostas)]
+
+    U -- "1. interage" --> SPA
+    R --> P & RS & M
+    SPA -- "2. HTTP + JSON (fetch)" --> MW
+    MW --> RT
+    RT -- "3. chama funções" --> MO
+    RT -- "3. chama serviço" --> BU
+    MO -- "4. SQL" --> BD
+    BU -- "4. SQL" --> BD
+    BD -- "5. prepare/get/all/run" --> DB
+    RT -. "6. resposta JSON" .-> SPA

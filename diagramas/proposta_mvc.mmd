@@ -1,0 +1,73 @@
+---
+title: Proposta MVC no backend - Busca e Votação
+---
+classDiagram
+    direction LR
+    namespace Controllers {
+        class BuscaController {
+            -servicoBusca
+            -view: PerguntaView
+            +buscar(req, res)
+        }
+        class VotosController {
+            -servicoVotos
+            -view: VotoView
+            +votar(req, res)
+            +removerVoto(req, res)
+        }
+    }
+    namespace Models {
+        class ServicoBusca {
+            +buscar(filtros) Pergunta[]
+        }
+        class ServicoVotos {
+            +votar(id_usuario, id_pergunta, valor) ResultadoVoto
+        }
+        class Pergunta {
+            +id_pergunta
+            +texto
+            +num_respostas
+            +pontuacao
+        }
+        class Voto {
+            +id_usuario
+            +id_pergunta
+            +valor
+            +ehUpvote() boolean
+        }
+        class RepositorioPerguntas {
+            <<interface>>
+            +listarComNumRespostas()
+            +obter(id)
+        }
+        class RepositorioVotos {
+            <<interface>>
+            +obter(id_usuario, id_pergunta) Voto
+            +salvar(voto)
+            +remover(id_usuario, id_pergunta)
+            +pontuacao(id_pergunta) int
+        }
+    }
+    namespace Views {
+        class PerguntaView {
+            +resumo(pergunta) object
+            +resultadoBusca(termo, perguntas) object
+        }
+        class VotoView {
+            +resultado(resultadoVoto) object
+        }
+        class ErroView {
+            +erro(mensagem, detalhes) object
+        }
+    }
+    BuscaController --> ServicoBusca
+    BuscaController --> PerguntaView
+    BuscaController --> ErroView
+    VotosController --> ServicoVotos
+    VotosController --> VotoView
+    VotosController --> ErroView
+    ServicoBusca --> RepositorioPerguntas
+    ServicoVotos --> RepositorioVotos
+    ServicoVotos --> RepositorioPerguntas
+    ServicoBusca ..> Pergunta
+    ServicoVotos ..> Voto

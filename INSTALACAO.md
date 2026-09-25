@@ -2,7 +2,7 @@
 
 Este documento descreve como instalei e executei localmente o backend (este repositório) e o frontend (esmforum-react) do ESM Forum, incluindo os problemas que encontrei no caminho e como os resolvi.
 
-> Os links para os forks estão no [README do projeto final](PROJETO_FINAL.md).
+> Os links para os forks estão em [PROJETO_FINAL.md](PROJETO_FINAL.md).
 
 ## Pré-requisitos
 

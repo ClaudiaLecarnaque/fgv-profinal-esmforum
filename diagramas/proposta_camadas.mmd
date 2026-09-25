@@ -1,0 +1,44 @@
+---
+title: Proposta - organização em camadas
+---
+flowchart TB
+    CLI([SPA React / clientes HTTP])
+
+    subgraph AP["Camada de Apresentação (src/api)"]
+        direction LR
+        ROT["rotas/<br/>perguntas.rotas.js<br/>respostas.rotas.js<br/>votos.rotas.js"]
+        CTR["controllers/<br/>PerguntasController<br/>BuscaController<br/>VotosController"]
+        VAL["validadores/<br/>validarFiltros<br/>validarVoto"]
+        VIEW["views/<br/>PerguntaView<br/>VotoView"]
+        MID["middlewares/<br/>cors · erros · identificarUsuario"]
+    end
+
+    subgraph NEG["Camada de Negócio (src/dominio)"]
+        direction LR
+        SERV["servicos/<br/>ServicoPerguntas<br/>ServicoBusca<br/>ServicoVotos<br/>ServicoRespostas"]
+        REG["regras/<br/>criterios de busca<br/>ordenacoes<br/>RegraVoto"]
+        ENT["entidades/<br/>Pergunta · Resposta<br/>Voto · Tag · Usuario"]
+        CONT["contratos/ (interfaces)<br/>RepositorioPerguntas<br/>RepositorioVotos ..."]
+        EVT["eventos/<br/>PublicadorEventos"]
+    end
+
+    subgraph DAD["Camada de Dados (src/infra)"]
+        direction LR
+        REPO["repositorios/sqlite/<br/>RepositorioPerguntasSQLite<br/>RepositorioVotosSQLite ..."]
+        CON["bd/conexao.js<br/>conectar(caminho) + transacao()"]
+        MIG["bd/migracoes/<br/>001_inicial.sql<br/>002_votos.sql ..."]
+    end
+
+    DB[(SQLite)]
+    COMP["src/composicao.js<br/>raiz de composição: cria e injeta tudo"]
+
+    CLI -->|HTTP/JSON| ROT
+    ROT --> MID --> CTR
+    CTR --> VAL
+    CTR --> SERV
+    CTR --> VIEW
+    SERV --> REG & ENT & CONT & EVT
+    REPO -. implementa .-> CONT
+    REPO --> CON --> DB
+    MIG -.-> DB
+    COMP -. monta .-> AP & NEG & DAD

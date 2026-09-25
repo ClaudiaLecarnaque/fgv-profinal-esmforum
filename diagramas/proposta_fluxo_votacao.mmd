@@ -1,0 +1,39 @@
+sequenceDiagram
+    autonumber
+    participant F as SPA React
+    participant R as Rota Express<br/>votos.rotas.js
+    participant MW as Middleware<br/>identificarUsuario
+    participant C as VotosController
+    participant S as ServicoVotos (Model)
+    participant RV as RepositorioVotosSQLite
+    participant RP as RepositorioPerguntasSQLite
+    participant BD as SQLite
+    participant V as VotoView
+
+    F->>R: POST /perguntas/42/votos { valor: 1 }<br/>header X-Usuario-Id: 7
+    R->>MW: encaminha
+    MW->>MW: req.usuario = { id: 7 } (ou 401)
+    MW->>C: votar(req, res)
+    C->>C: validarVoto(req.body) (valor ∈ {1, -1}, senão 400)
+    C->>S: votar(7, 42, 1)
+    S->>RP: obter(42)
+    RP->>BD: SELECT ... WHERE id_pergunta = 42
+    BD-->>RP: pergunta (ou nada, gera 404)
+    S->>RV: obter(7, 42)
+    RV->>BD: SELECT ... FROM votos WHERE ...
+    BD-->>RV: voto atual (ou nenhum)
+    alt sem voto anterior
+        S->>RV: salvar(novo Voto(7, 42, +1))
+    else mesmo valor
+        S->>RV: remover(7, 42)
+    else valor oposto
+        S->>RV: salvar(Voto(7, 42, +1)) (UPSERT)
+    end
+    RV->>BD: INSERT/UPDATE/DELETE (em transação)
+    S->>RV: pontuacao(42)
+    RV->>BD: SELECT SUM(valor) ...
+    BD-->>RV: 13
+    S-->>C: { acao: "registrado", pontuacao: 13, meuVoto: 1 }
+    C->>V: resultado(resultadoVoto)
+    V-->>C: JSON formatado
+    C-->>F: 200 { id_pergunta: 42, pontuacao: 13, meu_voto: "up", acao: "registrado" }
