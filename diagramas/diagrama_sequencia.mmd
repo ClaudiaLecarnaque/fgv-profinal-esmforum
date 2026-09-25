@@ -1,0 +1,49 @@
+sequenceDiagram
+    autonumber
+    actor V as Visitante
+    participant F as :Frontend (BuscaPerguntas)
+    participant API as :API (server.js)
+    participant S as :ServicoBusca
+    participant R as :RepositorioPerguntasSQLite
+    participant C as :CriterioPalavraChave
+    participant BD as :Banco (SQLite)
+
+    V->>F: digita termo e clica em "Buscar"
+    F->>F: valida tamanho mínimo (>= 2)
+    alt termo curto
+        F-->>V: "Digite pelo menos 2 caracteres"
+    else termo válido
+        F->>API: GET /perguntas/busca?q=termo
+        activate API
+        API->>API: validarFiltros(query)
+        alt termo inválido
+            API-->>F: 400 { erro }
+            F-->>V: exibe mensagem de erro
+        else termo válido
+            API->>S: buscar({ q })
+            activate S
+            S->>S: filtra critérios ativos (seAplica)
+            S->>R: listarComNumRespostas()
+            activate R
+            R->>BD: SELECT p.*, COUNT(r.id_resposta) ... LEFT JOIN ... GROUP BY
+            BD-->>R: linhas
+            R-->>S: perguntas[]
+            deactivate R
+            loop para cada pergunta
+                S->>C: atende(pergunta, filtros)
+                activate C
+                C->>C: normaliza texto e termo, verifica todas as palavras
+                C-->>S: true / false
+                deactivate C
+            end
+            S-->>API: perguntas encontradas
+            deactivate S
+            API-->>F: 200 { termo, total, perguntas }
+            deactivate API
+            alt total > 0
+                F-->>V: exibe tabela com resultados
+            else total = 0
+                F-->>V: "Nenhuma pergunta encontrada para 'termo'"
+            end
+        end
+    end

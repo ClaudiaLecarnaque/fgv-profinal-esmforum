@@ -1,0 +1,32 @@
+---
+title: Diagrama de Atividades - Votar em Pergunta
+---
+flowchart TD
+    inicio(( )) --> A[Visualizar lista de perguntas]
+    A --> B[Clicar em upvote ou downvote]
+    B --> D1{Usuário identificado?}
+    D1 -- não --> X[Exibir 'Identifique-se para votar']
+    X --> fim1((( )))
+    D1 -- sim --> C[Enviar voto para a API]
+    C --> D2{Pergunta existe?}
+    D2 -- não --> E[Responder 404 e exibir erro]
+    E --> fim2((( )))
+    D2 -- sim --> D3{Usuário já votou nesta pergunta?}
+    D3 -- não --> G[Registrar novo voto]
+    D3 -- sim --> D4{Mesma direção do voto atual?}
+    D4 -- sim --> H[Remover voto existente]
+    D4 -- não --> I[Trocar direção do voto]
+    G --> J[Recalcular pontuação]
+    H --> J
+    I --> J
+    J --> fork[ ]
+    fork --> K[Atualizar placar e destaque do botão na tela]
+    fork --> L[Reordenar lista se ordenação for 'Mais votadas']
+    K --> join[ ]
+    L --> join
+    join --> fim3((( )))
+
+    classDef barra fill:#222,stroke:#222,color:#222,height:4px;
+    class fork,join barra
+    classDef ponto fill:#222,stroke:#222;
+    class inicio,fim1,fim2,fim3 ponto

@@ -1,0 +1,53 @@
+---
+title: ESM Forum - Diagrama de Classes do Domínio (com extensões)
+---
+classDiagram
+    direction LR
+
+    class Usuario {
+        +id_usuario: int
+        +nome: string
+        +email: string
+        +data_cadastro: datetime
+    }
+
+    class Pergunta {
+        +id_pergunta: int
+        +texto: string
+        +data_criacao: datetime
+        +/num_respostas: int
+        +/pontuacao: int
+    }
+
+    class Resposta {
+        +id_resposta: int
+        +texto: string
+        +data_criacao: datetime
+    }
+
+    class Tag {
+        +id_tag: int
+        +nome: string
+    }
+
+    class Voto {
+        +valor: TipoVoto
+        +data_voto: datetime
+    }
+
+    class TipoVoto {
+        <<enumeration>>
+        UPVOTE = +1
+        DOWNVOTE = -1
+    }
+
+    Usuario "1" --> "0..*" Pergunta : autor de
+    Usuario "1" --> "0..*" Resposta : autor de
+    Pergunta "1" *-- "0..*" Resposta : recebe
+    Pergunta "0..*" --> "1..3" Tag : classificada por
+    Usuario "1" --> "0..*" Voto : registra
+    Pergunta "1" *-- "0..*" Voto : recebe
+    Voto ..> TipoVoto
+
+    note for Voto "Restrição: no máximo 1 voto por (usuário, pergunta)"
+    note for Pergunta "/num_respostas e /pontuacao são derivados: contagem de respostas e soma dos votos"

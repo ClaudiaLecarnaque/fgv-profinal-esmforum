@@ -1,0 +1,24 @@
+---
+title: Diagrama de Estados - Pergunta
+---
+stateDiagram-v2
+    [*] --> Aberta : cadastrar_pergunta(texto, tags)
+
+    state Publicada {
+        Aberta --> Respondida : nova resposta
+        Respondida --> Respondida : nova resposta
+        Respondida --> EmDestaque : voto [pontuacao >= 5]
+        EmDestaque --> Respondida : voto [pontuacao < 5]
+        EmDestaque --> EmDestaque : nova resposta
+    }
+
+    Publicada --> Oculta : voto [pontuacao <= -5]
+    Oculta --> Publicada : moderador restaura
+    Publicada --> Excluida : autor exclui
+    Oculta --> Excluida : moderador exclui
+    Excluida --> [*]
+
+    note right of Oculta
+        Não aparece na lista nem na busca,
+        mas continua no banco.
+    end note
