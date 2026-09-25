@@ -11,7 +11,7 @@ Este documento descreve como instalei e executei localmente o backend (este repo
 | Git | 2.x | para clonar os forks |
 | Node.js | 22.x (LTS) | o CI do projeto usa Node 18, mas funciona em versões mais novas |
 | npm | 10.x | vem junto com o Node |
-| Python 3 + compilador C/C++ | — | só necessários se o `npm install` precisar compilar módulos nativos (ver "Problemas encontrados") |
+| Python 3 + compilador C/C++ | — | só no repositório **original**, para compilar o pacote `sqlite3` (ver "Problemas encontrados"). No meu fork não é necessário. |
 
 Não é preciso instalar o SQLite separadamente para rodar o sistema: a biblioteca `better-sqlite3` já embute o SQLite. O executável `sqlite3` só é útil para recriar o banco com o script `bd/criar_bd.sh`.
 
@@ -83,7 +83,7 @@ O navegador abre em `http://localhost:3000`. A página inicial lista as pergunta
 npm_config_nodedir=$(dirname $(dirname $(which node))) npm install
 ```
 
-Outras saídas possíveis: instalar as ferramentas de build (`sudo apt install build-essential python3` no Linux, ou `xcode-select --install` no macOS), ou usar Node 18/20, para os quais existem binários prontos. A causa raiz é uma dependência que não é usada; discuto isso em [DESIGN_SIMPLES.md](DESIGN_SIMPLES.md).
+Outras saídas possíveis: instalar as ferramentas de build (`sudo apt install build-essential python3` no Linux, ou `xcode-select --install` no macOS), ou usar Node 18/20, para os quais existem binários prontos. A causa raiz é uma dependência que não é usada; discuto isso em [DESIGN_SIMPLES.md](DESIGN_SIMPLES.md). **No meu fork, removi o `sqlite3` do `package.json`**, e o `npm install` passou a funcionar direto, sem compilar nada.
 
 **Porta 5000 ocupada no macOS.** Em versões recentes do macOS, o "Receptor AirPlay" usa a porta 5000. Se o servidor não subir, desative esse recurso em *Ajustes do Sistema → Geral → AirDrop e Handoff*.
 
