@@ -4,7 +4,7 @@
 
 **Repositórios:**
 - Backend (fork de `jeffsantos/esmforum`): https://github.com/ClaudiaLecarnaque/fgv-profinal-esmforum
-- Frontend (fork de `jeffsantos/esmforum-react`): _(link do fork)_
+- Frontend (fork de `jeffsantos/esmforum-react`): https://github.com/ClaudiaLecarnaque/fgv-profinal-esmforum-react
 - Board no GitHub Projects: _(link do board)_
 
 Este arquivo é o índice de todas as entregas. Os documentos ficam na raiz deste repositório. Os diagramas ficam em [`diagramas/`](diagramas/), sempre em dois formatos: fonte Mermaid (`.mmd`) e imagem (`.png`).
@@ -54,7 +54,7 @@ npm install
 npm test          # 37 testes
 node server.js    # http://localhost:5000
 
-# frontend (no repositório esmforum-react)
+# frontend (no repositório fgv-profinal-esmforum-react)
 npm install
 npm start         # http://localhost:3000
 ```
