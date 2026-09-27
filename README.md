@@ -1,3 +1,9 @@
+> **Projeto Final de Engenharia de Software I (FGV): Claudia Lecarnaque**
+>
+> Este repositório é um fork do ESM Forum usado no projeto final da disciplina. O índice de todas as entregas (Partes 1, 2 e 3) está em **[PROJETO_FINAL.md](PROJETO_FINAL.md)**.
+>
+> Frontend: [fgv-profinal-esmforum-react](https://github.com/ClaudiaLecarnaque/fgv-profinal-esmforum-react) · Board: [GitHub Projects](https://github.com/users/ClaudiaLecarnaque/projects/1)
+
 # ESM Forum
 
 O **ESM Forum** é um sistema minimalista de demonstração do livro [Engenharia de Software Moderna](https://engsoftmoderna.info). 
