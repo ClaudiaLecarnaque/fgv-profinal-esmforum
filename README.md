@@ -33,7 +33,7 @@ O backend do sistema, que está neste repositório, usa JavaScript e também as 
 
 ### Instalação e Execução do Backend
 
-Veja neste [link](docs/instalacao.md).
+Veja o guia atualizado deste fork em [INSTALACAO.md](INSTALACAO.md) (inclui a solução para o erro de instalação do pacote `sqlite3`). O guia original do projeto continua em [docs/instalacao.md](docs/instalacao.md).
 
 ## Praticando o Conteúdo do Livro
 
