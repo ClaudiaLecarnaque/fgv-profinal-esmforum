@@ -46,6 +46,12 @@ Este arquivo é o índice de todas as entregas. Os documentos ficam na raiz dest
 
 ---
 
+## Uso de assistente de IA
+
+Declaro que usei o **Claude** (assistente de IA da Anthropic) ao longo de todo o projeto, como apoio ao desenvolvimento. Ele me ajudou a analisar o código original do ESM Forum, a redigir os documentos das três partes, a gerar os diagramas em Mermaid, a implementar a busca por palavra-chave e seus testes automatizados, e a organizar os commits e os forks no GitHub.
+
+As decisões do projeto foram minhas: fazer o trabalho individualmente, o escopo de cada entrega, a escolha do Kanban e da ordem de prioridade das funcionalidades, e a montagem do board no GitHub Projects. Revisei o conteúdo produzido antes de publicá-lo. O código foi validado com a execução dos testes (`npm test`) e com o uso da busca no navegador.
+
 ## Como executar e testar
 
 ```bash
