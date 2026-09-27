@@ -1,6 +1,6 @@
 # Processo de desenvolvimento: Kanban
 
-**Board no GitHub Projects:** _(link do board)_
+**Board no GitHub Projects:** https://github.com/users/ClaudiaLecarnaque/projects/1
 
 ## Qual processo escolhi
 

@@ -5,7 +5,7 @@
 **Repositórios:**
 - Backend (fork de `jeffsantos/esmforum`): https://github.com/ClaudiaLecarnaque/fgv-profinal-esmforum
 - Frontend (fork de `jeffsantos/esmforum-react`): https://github.com/ClaudiaLecarnaque/fgv-profinal-esmforum-react
-- Board no GitHub Projects: _(link do board)_
+- Board no GitHub Projects: https://github.com/users/ClaudiaLecarnaque/projects/1
 
 Este arquivo é o índice de todas as entregas. Os documentos ficam na raiz deste repositório. Os diagramas ficam em [`diagramas/`](diagramas/), sempre em dois formatos: fonte Mermaid (`.mmd`) e imagem (`.png`).
 
@@ -17,7 +17,7 @@ Este arquivo é o índice de todas as entregas. Os documentos ficam na raiz dest
 |---|---|---|
 | 1. Configuração do ambiente | 1.0 | [INSTALACAO.md](INSTALACAO.md) (e `INSTALACAO.md` no repositório do frontend) |
 | 2a. Escolha do processo (Kanban) | 2.0 | [PROCESSO.md](PROCESSO.md) |
-| 2b. Estruturação do board | 3.0 | Board no GitHub Projects (link acima). Colunas, limites de WIP e priorização em [PROCESSO.md](PROCESSO.md) |
+| 2b. Estruturação do board | 3.0 | [Board no GitHub Projects](https://github.com/users/ClaudiaLecarnaque/projects/1). Colunas, limites de WIP e priorização em [PROCESSO.md](PROCESSO.md) |
 | 3a. Design Simples | 2.0 | [DESIGN_SIMPLES.md](DESIGN_SIMPLES.md) |
 | 3b. Pair Programming | 2.0 | [PAIR_PROGRAMMING.md](PAIR_PROGRAMMING.md) |
 
